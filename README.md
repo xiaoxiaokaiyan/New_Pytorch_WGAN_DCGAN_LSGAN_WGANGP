@@ -164,6 +164,7 @@ $ tensorboard --logdir "./output"
 
 ## References:
 * [https://github.com/AlexiaJM/Deep-learning-with-cats](https://github.com/AlexiaJM/Deep-learning-with-cats)
+* [LSGAN——最小二乘GAN - 知乎](https://zhuanlan.zhihu.com/p/25768099)
 * [更多GAN变种的实现：https://github.com/LynnHo/DCGAN-LSGAN-WGAN-GP-DRAGAN-Tensorflow-2](https://github.com/LynnHo/DCGAN-LSGAN-WGAN-GP-DRAGAN-Tensorflow-2)
 * [更多GAN变种的论文：https://github.com/hindupuravinash/the-gan-zoo](https://github.com/hindupuravinash/the-gan-zoo)
 * [https://reiinakano.github.io/gan-playground/在线构建GAN](https://reiinakano.github.io/gan-playground/)

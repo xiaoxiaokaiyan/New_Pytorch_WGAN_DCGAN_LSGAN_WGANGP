@@ -50,13 +50,13 @@
 <img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/LSGAN_fake_samples_epoch100%EF%BC%88%E4%B8%80%E4%B8%AA%E5%8D%8A%E5%B0%8F%E6%97%B6%EF%BC%892.png" width = 100% height =50%  div align=center />
 
 * WGAN-GP（跑的代数较少）
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50% div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 100% height =50% div align=center />
 
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50% div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 100% height =50% div align=center />
 
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50% div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 100% height =50% div align=center />
 
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50% div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width =100% height =50% div align=center />
 &nbsp;
 <br/>
 
@@ -78,7 +78,16 @@
      IndexError: invalid index of a 0-dim tensor. Use tensor.item() to convert a 0-dim tensor to a Python
      #将原语句：train_loss+=loss.data[0] 修改为：train_loss+=loss.item()      
 ```  
+```  
+      出现：RuntimeError: invalid argument 0: Sizes of tensors must match except in dime
+      这种错误有两种可能：
+          1.你输入的图像数据的维度不完全是一样的，比如是训练的数据有100组，其中99组是256*256，但有一组是384*384，这样会导致Pytorch的检查程序报错。
+          2.比较隐晦的batchsize的问题，Pytorch中检查你训练维度正确是按照每个batchsize的维度来检查的，比如你有1000组数据（假设每组数据为三通道256px*256px的图像），batchsize为4，那么每次训练             则提取(4,3,256,256)维度的张量来训练，刚好250个epoch解决(250*4=1000)。但是如果你有999组数据，你继续使用batchsize为4的话，这样999和4并不能整除，你在训练前249组时的张量维度都为               (4,3,256,256)但是最后一个批次的维度为(3,3,256,256)，Pytorch检查到(4,3,256,256) != (3,3,256,256)，维度不匹配，自然就会报错了，这可以称为一个小bug。
+      解决办法：
+          对于第一种：整理一下你的数据集保证每个图像的维度和通道数都一直即可。（本文的解决方法）
+          对于第二种：挑选一个可以被数据集个数整除的batchsize或者直接把batchsize设置为1即可。
 
+```  
 
 ### （2）关于VAE和GAN的区别
   * 1.VAE和GAN都是目前来看效果比较好的生成模型，本质区别我觉得这是两种不同的角度，VAE希望通过一种显式(explicit)的方法找到一个概率密度，并通过最小化对数似函数的下限来得到最优解；

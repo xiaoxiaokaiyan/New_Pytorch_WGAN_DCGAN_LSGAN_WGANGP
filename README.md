@@ -4,6 +4,7 @@
 * this code 
 * [PyTorch Version](https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_Celeba_Oxford102flowers_Anime)
 * [Tensorflow Version](https://github.com/xiaoxiaokaiyan/New_Tensorflow_AE_VAE_FashionMnist_GAN_WGAN_Anime)
+* [更多GAN版本的实现：https://github.com/eriklindernoren/Keras-GAN](https://github.com/eriklindernoren/Keras-GAN)
 
 ## Theory
 * GAN-Loss

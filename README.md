@@ -1,4 +1,4 @@
-# 心得：**WGAN网络的创建**
+# 心得：**WGAN、DCGAN、LSGAN、WGAGP网络的创建**
 
 ## News
 * this code 
@@ -84,10 +84,37 @@
           1.你输入的图像数据的维度不完全是一样的，比如是训练的数据有100组，其中99组是256*256，但有一组是384*384，这样会导致Pytorch的检查程序报错。
           2.比较隐晦的batchsize的问题，Pytorch中检查你训练维度正确是按照每个batchsize的维度来检查的，比如你有1000组数据（假设每组数据为三通道256px*256px的图像），batchsize为4，那么每次训练             则提取(4,3,256,256)维度的张量来训练，刚好250个epoch解决(250*4=1000)。但是如果你有999组数据，你继续使用batchsize为4的话，这样999和4并不能整除，你在训练前249组时的张量维度都为               (4,3,256,256)但是最后一个批次的维度为(3,3,256,256)，Pytorch检查到(4,3,256,256) != (3,3,256,256)，维度不匹配，自然就会报错了，这可以称为一个小bug。
       解决办法：
-          对于第一种：整理一下你的数据集保证每个图像的维度和通道数都一直即可。（本文的解决方法）
+          对于第一种：整理一下你的数据集保证每个图像的维度和通道数都一直即可。
           对于第二种：挑选一个可以被数据集个数整除的batchsize或者直接把batchsize设置为1即可。
 
 ```  
+``` 
+      由于通过dataset=torchvision.datasets.ImageFolder()加载数据，故input_folder文件夹下还需套一个文件夹，该文件夹可任意取名字，并放入训练的图片。
+      如：parser.add_argument('--input_folder', default='./images', help='input folder')
+      则目录结构为：
+      images
+          -haha1
+              1.jpg
+              2.jpg
+              3.jpg
+              .
+              .
+          -haha2
+              1.jpg
+              .
+              .
+          -haha3
+      output   
+      DCGAN.py
+      DCGAN_fake_samples_epoch004（二十分钟）.png
+      DCGAN_fake_samples_epoch004（二十分钟）2.png
+      DCGAN_fake_samples_epoch021（十五分钟）.png
+      LSGAN.py
+      .
+      .
+      .   
+``` 
+
 
 ### （2）关于VAE和GAN的区别
   * 1.VAE和GAN都是目前来看效果比较好的生成模型，本质区别我觉得这是两种不同的角度，VAE希望通过一种显式(explicit)的方法找到一个概率密度，并通过最小化对数似函数的下限来得到最优解；
@@ -119,7 +146,7 @@ $ # Generate 64x64 cats using LSGAN (Least Squares GAN)
 $ python LSGAN.py --input_folder "your_input_folder_64x64" --output_folder "your_output_folder"
 ```
 ```
-可单独运行每个文件，按默认参数即可，默认参数可在代码里修改。
+也可单独运行每个文件，按默认参数即可，默认参数可在代码里修改。
 ```
 &nbsp;
 <br/>

@@ -36,8 +36,13 @@
 
 
 ## Visualization Results
-* CelebA数据集生成结果（3个多小时，20epoch）
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_Celeba_Oxford102flowers_Anime/blob/main/result2_fake_images-norm-20.png" width = 50% height =50%  div align=center />
+* DCGAN（跑的代数较少）
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50%  div align=center />
+
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50%  div align=center />
+
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch021%EF%BC%88%E5%8D%81%E4%BA%94%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50%  div align=center />
+
 
 * Anime数据集生成结果（2个多小时，54epoch）
 <img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_Celeba_Oxford102flowers_Anime/blob/main/result3_fake_images-norm-54.png" width = 50% height =50%  div align=center />
@@ -54,41 +59,16 @@
 * the Anime dataset should be prepared by yourself in ./data/faces/*.jpg,63565个彩色图片。
   * dataset link: [https://www.kaggle.com/splcher/animefacedataset](https://www.kaggle.com/splcher/animefacedataset)
 * Oxford_102_flowers 是牛津大学在2009发布的图像数据集。包含102种英国常见花类，每个类别包含 40-258张图像。
+&nbsp;
 <br/>
+
+
 
 ## Experience：
 ### （1）代码问题
 ```
-      先运行data_processing.py，将文件夹下的图片变为统一像素，再通过wgan.py，通过dataset = datasets.ImageFolder('./', transform=trans)加载数据。
-      
-      dataset=torchvision.datasets.ImageFolder(
-                       root, transform=None, --------------------------会加载root目录底下文件夹中的全部图片，且transform可自己定义
-                       target_transform=None, 
-                       loader=<function default_loader>, 
-                       is_valid_file=None)
-                       
-      root：图片存储的根目录，即各类别文件夹所在目录的上一级目录。
-      transform：对图片进行预处理的操作（函数），原始图片作为输入，返回一个转换后的图片。
-      target_transform：对图片类别进行预处理的操作，输入为 target，输出对其的转换。如果不传该参数，即对 target 不做任何转换，返回的顺序索引 0,1, 2…
-      loader：表示数据集加载方式，通常默认加载方式即可。
-      is_valid_file：获取图像文件的路径并检查该文件是否为有效文件的函数(用于检查损坏文件)
-          如：
-                trans = transforms.Compose([
-                                              transforms.Resize(64),
-                                              transforms.ToTensor(),
-                                              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-                                          ])
-                dataset = datasets.ImageFolder('./', transform=trans) 
-```   
-```  
-      出现：RuntimeError: invalid argument 0: Sizes of tensors must match except in dime
-      这种错误有两种可能：
-          1.你输入的图像数据的维度不完全是一样的，比如是训练的数据有100组，其中99组是256*256，但有一组是384*384，这样会导致Pytorch的检查程序报错。
-          2.比较隐晦的batchsize的问题，Pytorch中检查你训练维度正确是按照每个batchsize的维度来检查的，比如你有1000组数据（假设每组数据为三通道256px*256px的图像），batchsize为4，那么每次训练             则提取(4,3,256,256)维度的张量来训练，刚好250个epoch解决(250*4=1000)。但是如果你有999组数据，你继续使用batchsize为4的话，这样999和4并不能整除，你在训练前249组时的张量维度都为               (4,3,256,256)但是最后一个批次的维度为(3,3,256,256)，Pytorch检查到(4,3,256,256) != (3,3,256,256)，维度不匹配，自然就会报错了，这可以称为一个小bug。
-      解决办法：
-          对于第一种：整理一下你的数据集保证每个图像的维度和通道数都一直即可。（本文的解决方法）
-          对于第二种：挑选一个可以被数据集个数整除的batchsize或者直接把batchsize设置为1即可。
-
+     IndexError: invalid index of a 0-dim tensor. Use tensor.item() to convert a 0-dim tensor to a Python
+     #将原语句：train_loss+=loss.data[0] 修改为：train_loss+=loss.item()      
 ```  
 
 
@@ -98,8 +78,11 @@ GAN则是对抗的方式来寻找一种平衡，不需要认为给定一个显�
   * 2.简单来说，GAN和VAE都属于深度生成模型（deep generative models，DGM）而且属于implicit DGM。他们都能够从具有简单分布的随机噪声中生成具有复杂分布的数据（逼近真实数据分布），而两者的本质区别是从不同的视角来看待数据生成的过程，从而构建了不同的loss function作为衡量生成数据好坏的metric度量。
   * 3.要求得一个生成模型使其生成数据的分布 能够最小化与真实数据分布之间的某种分布差异度量，例如KL散度、JS散度、Wasserstein距离等。采用不同的差异度量会导出不同的loss function，比如KL散度会导出极大似然估计，JS散度会产生最原始GAN里的判别器，Wasserstein距离通过dual form会引入critic。而不同的深度生成模型，具体到GAN、VAE还是flow model，最本质的区别就是从不同的视角来看待数据生成的过程，从而采用不同的数据分布模型来表达。 [https://www.zhihu.com/question/317623081](https://www.zhihu.com/question/317623081)
   * 4.描述的是分布之间的距离而不是样本的距离。[https://blog.csdn.net/Mark_2018/article/details/105400648](https://blog.csdn.net/Mark_2018/article/details/105400648)
+&nbsp;
+<br/>
 
-**To run**
+
+## To run
 ```bash
 $ # Download dataset and preprocess cat pictures 
 $ # Create two folders, one for cats bigger than 64x64 and one for cats bigger than 128x128
@@ -118,38 +101,25 @@ $ python WGAN-GP.py --input_folder "your_input_folder_64x64" --output_folder "yo
 $ # Generate 64x64 cats using LSGAN (Least Squares GAN)
 $ python LSGAN.py --input_folder "your_input_folder_64x64" --output_folder "your_output_folder"
 ```
-
-**To see TensorBoard plots of the losses**
-```bash
-$ tensorboard --logdir "your_input_folder"
 ```
+可单独运行每个文件，按默认参数即可，默认参数可在代码里修改。
+```
+&nbsp;
+<br/>
 
-# Results
 
-**Discussion of the results at https://ajolicoeur.wordpress.com/cats.**
+## To see TensorBoard plots of the losses
+```bash
+$ tensorboard --logdir "./output"
+```
+&nbsp;
+<br/>
 
-**DCGAN 64x64**
 
-![](/images/DCGAN_209epoch.png)
 
-**DCGAN 128x128 with SELU**
+## References:
+* [https://github.com/AlexiaJM/Deep-learning-with-cats](https://github.com/AlexiaJM/Deep-learning-with-cats)
+* [更多GAN变种的实现：https://github.com/LynnHo/DCGAN-LSGAN-WGAN-GP-DRAGAN-Tensorflow-2](https://github.com/LynnHo/DCGAN-LSGAN-WGAN-GP-DRAGAN-Tensorflow-2)
+* [更多GAN变种的论文：https://github.com/hindupuravinash/the-gan-zoo](https://github.com/hindupuravinash/the-gan-zoo)
+* [https://reiinakano.github.io/gan-playground/在线构建GAN](https://reiinakano.github.io/gan-playground/)
 
-![](/images/DCGAN_SELU_128x128_epoch605.png)
-
-**WGAN 64x64**
-
-![](/images/WGAN_1408epoch.png)
-
-**WGAN-GP 64x64 with SELU**
-
-![](/images/WGAN_GP_iter15195.png)
-
-**Fast style transfer**
-
-![](/images/cat_style1.jpg)
-![](/images/cat_style2.jpg)
-![](/images/cat_style3.jpg)
-![](/images/cat_style4.jpg)
-![](/images/cat_style5.jpg)
-
-![](/images/true_art.jpg)

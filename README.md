@@ -37,18 +37,26 @@
 
 ## Visualization Results
 * DCGAN（跑的代数较少）
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50%  div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 100% height =50%  div align=center />
 
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50%  div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch004%EF%BC%88%E4%BA%8C%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 100% height =50%  div align=center />
 
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch021%EF%BC%88%E5%8D%81%E4%BA%94%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50%  div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/DCGAN_fake_samples_epoch021%EF%BC%88%E5%8D%81%E4%BA%94%E5%88%86%E9%92%9F%EF%BC%89.png" width = 100% height =50%  div align=center />
 
 
-* Anime数据集生成结果（2个多小时，54epoch）
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_Celeba_Oxford102flowers_Anime/blob/main/result3_fake_images-norm-54.png" width = 50% height =50%  div align=center />
+* LSGAN（跑的代数较少）
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/LSGAN_fake_samples_epoch100%EF%BC%88%E4%B8%80%E4%B8%AA%E5%8D%8A%E5%B0%8F%E6%97%B6%EF%BC%89.png" width = 100% height =50%  div align=center />
 
-* Oxford_102_flowers数据集生成结果（4个多小时，694epoch）
-<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_Celeba_Oxford102flowers_Anime/blob/main/result1_fake_images-norm-694.png" width = 50% height =50% div align=center />
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/LSGAN_fake_samples_epoch100%EF%BC%88%E4%B8%80%E4%B8%AA%E5%8D%8A%E5%B0%8F%E6%97%B6%EF%BC%892.png" width = 100% height =50%  div align=center />
+
+* WGAN-GP（跑的代数较少）
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50% div align=center />
+
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50% div align=center />
+
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%89.png" width = 50% height =50% div align=center />
+
+<img src="https://github.com/xiaoxiaokaiyan/New_Pytorch_WGAN_DCGAN_LSGAN_CycleGAN_FastNeuralTransfer/blob/master/WGAN-GP_fake_samples_iter007%EF%BC%88%E5%9B%9B%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%892.png" width = 50% height =50% div align=center />
 &nbsp;
 <br/>
 
